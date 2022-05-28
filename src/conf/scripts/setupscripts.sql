@@ -23,6 +23,65 @@ CREATE TABLE product (
 )
 
 
+--
+-- Table structure for table address
+--
+CREATE TABLE address (
+  id serial NOT NULL,
+  city varchar(255),
+  country varchar(255),
+  state varchar(255),
+  street varchar(255),
+  zip_code varchar(255),
+  PRIMARY KEY (id)
+)
+
+--
+-- Table structure for table customer
+--
+CREATE TABLE customer (
+  id serial NOT NULL,
+  first_name varchar(255),
+  last_name varchar(255),
+  email varchar(255),
+  PRIMARY KEY (id)
+)
+
+--
+-- Table structure for table orders
+--
+CREATE TABLE orders (
+  id serial NOT NULL,
+  order_tracking_number varchar(255),
+  total_price numeric(19,2),
+  total_quantity integer,
+  billing_address_id integer,
+  customer_id integer,
+  shipping_address_id integer,
+  status varchar(128),
+  date_created timestamp without time zone,
+  last_updated timestamp without time zone,
+  PRIMARY KEY (id),
+  CONSTRAINT FK_customer_id FOREIGN KEY (customer_id) REFERENCES customer (id),
+  CONSTRAINT FK_billing_address_id FOREIGN KEY (billing_address_id) REFERENCES address (id),
+  CONSTRAINT FK_shipping_address_id FOREIGN KEY (shipping_address_id) REFERENCES address (id)
+)
+
+--
+-- Table structure for table order_items
+--
+CREATE TABLE order_item (
+  id serial NOT NULL,
+  image_url varchar(255),
+  quantity integer,
+  unit_price numeric(19,2),
+  order_id integer,
+  product_id integer,
+  PRIMARY KEY (id),
+  CONSTRAINT FK_order_id FOREIGN KEY (order_id) REFERENCES orders (id),
+  CONSTRAINT FK_product_id FOREIGN KEY (product_id) REFERENCES product (id)
+)
+
 -- -----------------------------------------------------
 -- Add sample data
 -- -----------------------------------------------------
@@ -60,7 +119,6 @@ unit_price, category_id, date_created)
 VALUES ('BOOK-TECH-1004', 'The Go Programming Language: A to Z', 'Learn Go',
 'assets/images/products/placeholder.png'
 ,true,100,24.99,1, NOW());
-
 
 
 ---country------
@@ -326,3 +384,5 @@ INSERT INTO state VALUES
 (221,'Yalova',5),
 (222,'Yozgat',5),
 (223,'Zonguldak',5);
+
+
