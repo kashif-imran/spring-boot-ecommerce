@@ -43,7 +43,7 @@ CREATE TABLE customer (
   id serial NOT NULL,
   first_name varchar(255),
   last_name varchar(255),
-  email varchar(255),
+  email varchar(255) unique,
   PRIMARY KEY (id)
 )
 
@@ -384,5 +384,15 @@ INSERT INTO state VALUES
 (221,'Yalova',5),
 (222,'Yozgat',5),
 (223,'Zonguldak',5);
+
+select * from orders
+select * from customer
+select * from order_item
+select * from address
+
+--truncate customer cascade;
+--truncate address cascade;
+
+alter table customer add unique(email);
 
 
